@@ -75,6 +75,6 @@ main()
 
 		if (c == EOF) break;
 	}
-	printf("Times the dial was set to 0 after a rotation: %d\n", timesConditionFulfilled);
+	printf("Times the dial was ever set to 0: %d\n", timesConditionFulfilled);
 	return 0;
 }
