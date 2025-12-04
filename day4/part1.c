@@ -8,7 +8,7 @@
 const char *fileName = "input-example";
 
 void*
-err_calloc(size_t size, char *err)
+err_malloc(size_t size, char *err)
 {
 	void *ret = calloc(size, 1);
 	if (ret == NULL) {
@@ -34,13 +34,13 @@ parse(const char *fileName)
 		exit(1);
 	}
 
-	struct Line *ptr = err_calloc(sizeof(struct Line), "malloc in parse init fail");
+	struct Line *ptr = err_malloc(sizeof(struct Line), "malloc in parse init fail");
 	struct Line *head = ptr;
 
 	while (fgets(ptr->s, sizeof(ptr->s), file)) {
 		ptr->s[strlen(ptr->s)-1] = 0; // drop newline
 		if (!feof(file)) {
-			ptr->next = err_calloc(sizeof(struct Line), "struct malloc in parse loop fail");
+			ptr->next = err_malloc(sizeof(struct Line), "struct malloc in parse loop fail");
 			ptr = ptr->next;
 		}
 	}
