@@ -77,6 +77,7 @@ analyzeLine(struct Line* line)
 			line->neighbours[i]++;
 		if (i+1 < strlen(line->s) && line->s[i+1] == '@')
 			line->neighbours[i]++;
+
 		// line, line2: increment neighbours[i] for each '@' located at s[i-1], s[i], s[i+1]
 		if (line2 != NULL) {
 			if (line->s[i] == '@') {
@@ -103,8 +104,8 @@ removeRemovable(struct Line* line)
 	uint8_t count = 0;
 	for (int i = 0; i < strlen(line->s); i++) {
 		if (line->s[i] == '@' && line->neighbours[i]<4) {
-				line->s[i] = '.';
-				count++;
+			line->s[i] = '.';
+			count++;
 		}
 	}
 
