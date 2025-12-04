@@ -5,12 +5,12 @@
 
 // https://adventofcode.com/2025/day/4
 
-const char *fileName = "input";
+const char *fileName = "input-example";
 
 void*
-err_malloc(size_t size, char *err)
+err_calloc(size_t size, char *err)
 {
-	void *ret = malloc(size);
+	void *ret = calloc(size, 1);
 	if (ret == NULL) {
 		perror(err);
 		exit(1);
@@ -34,14 +34,17 @@ parse(const char *fileName)
 		exit(1);
 	}
 
-	struct Line *ptr = err_malloc(sizeof(struct Line), "malloc in parse init fail");
+	struct Line *ptr = err_calloc(sizeof(struct Line), "malloc in parse init fail");
 	struct Line *head = ptr;
 
 	while (fgets(ptr->s, sizeof(ptr->s), file)) {
 		ptr->s[strlen(ptr->s)-1] = 0; // drop newline
-		ptr->next = err_malloc(sizeof(struct Line), "struct malloc in parse loop fail");
+		ptr->next = err_calloc(sizeof(struct Line), "struct malloc in parse loop fail");
 		ptr = ptr->next;
 	}
+
+	for (ptr = head; ptr->next->next != NULL; ptr = ptr->next) {}
+	ptr->next = NULL; // abandon last, unused node
 
 	return head;
 }
@@ -66,20 +69,16 @@ printLine(struct Line* line)
 uint8_t
 analyzeLine(struct Line* line)
 {
-	// line: increment neighbours[i] for each '@' neighbouring s[i] in the X axis
-	
+	struct Line* line2 = line->next;
+
 	for (int i = 0; i < strlen(line->s); i++) {
+		// line: increment neighbours[i] for each '@' neighbouring s[i] in the X axis
 		if (i > 0 && line->s[i-1] == '@')
 			line->neighbours[i]++;
 		if (i+1 < strlen(line->s) && line->s[i+1] == '@')
 			line->neighbours[i]++;
-	}
-		
-	// line, line2: increment neighbours[i] for each '@' located at s[i-1], s[i], s[i+1]
-	struct Line* line2 = line->next;
-
-	if (line2 != NULL) {
-		for (int i = 0; i < strlen(line->s); i++) {
+		// line, line2: increment neighbours[i] for each '@' located at s[i-1], s[i], s[i+1]
+		if (line2 != NULL) {
 			if (line->s[i] == '@') {
 				if (i > 0)
 					line2->neighbours[i-1]++;
