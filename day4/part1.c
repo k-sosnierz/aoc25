@@ -39,12 +39,11 @@ parse(const char *fileName)
 
 	while (fgets(ptr->s, sizeof(ptr->s), file)) {
 		ptr->s[strlen(ptr->s)-1] = 0; // drop newline
-		ptr->next = err_calloc(sizeof(struct Line), "struct malloc in parse loop fail");
-		ptr = ptr->next;
+		if (!feof(file)) {
+			ptr->next = err_calloc(sizeof(struct Line), "struct malloc in parse loop fail");
+			ptr = ptr->next;
+		}
 	}
-
-	for (ptr = head; ptr->next->next != NULL; ptr = ptr->next) {}
-	ptr->next = NULL; // abandon last, unused node
 
 	return head;
 }
