@@ -63,10 +63,10 @@ parse(const char *fileName)
 	/*
 		read the input into a contiguous array
 
-		0		^
-		12		^^
-		345		^.^
-		6789	.^^.
+		0     ^
+		12    ^^
+		345   ^.^
+		6789  .^^.
 	*/
 
 	struct State state = {0};
