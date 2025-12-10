@@ -89,6 +89,13 @@ doesLineGoBetweenTiles(struct Line l, struct Tile a, struct Tile b)
 bool
 doesLineCrossBox(struct Line l, struct Tile a, struct Tile b)
 {
+	// first, check if the bounding boxes intersect at all
+	if (max(l.a->x, l.b->x) < min(a.x, b.x)
+		|| min(l.a->x, l.b->x) > max(a.x, b.x)
+		|| max(l.a->y, l.b->y) < min(a.y, b.y)
+		|| min(l.a->y, l.b->y) > max(a.y, b.y))
+		return false;
+
 	// four line-line intersects
 	int x[2] = {min(a.x, b.x) + 1, max(a.x, b.x) - 1};
 	int y[2] = {min(a.y, b.y) + 1, max(a.y, b.y) - 1};
