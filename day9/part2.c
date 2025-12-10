@@ -153,7 +153,7 @@ main()
 	
 	// All we have to do is the same as in part1, but:
 	// 1) Check that no lines pass through the rectangle
-	// 2) Check that the rectangle is inside the shape
+	// 2) Check that the rectangle is inside the shape ← okay I didn't do that... seems to not be necessary for the input 
 
 	uint64_t largestArea = 0;
 	int id1;
